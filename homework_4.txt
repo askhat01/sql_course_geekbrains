@@ -1,0 +1,27 @@
+/*Задание № 1. Вывести на экран сколько машин каждого цвета для машин марок BMW и LADA*/
+SELECT MARK, color, COUNT(color) AS 'count_of_cars' 
+FROM AUTO 
+WHERE MARK = 'LADA' 
+GROUP BY color, mark 
+UNION 
+SELECT MARK, color, COUNT(color) AS 'count_of_cars' 
+FROM AUTO 
+WHERE MARK = 'BMW'
+GROUP BY color, mark
+
+/*Задание № 2. Вывести на экран марку авто и количество AUTO не этой марки*/
+SELECT a.MARK, (SELECT COUNT(MARK) 
+				FROM AUTO b 
+				WHERE a.MARK <> b.MARK) AS count_other
+FROM AUTO a
+GROUP BY MARK
+
+/*Задание№3. Напишите запрос, который вернет строки из таблицы test_a, id которых нет в таблице test_b, НЕ используя ключевого слова NOT*/
+SELECT id 
+FROM (SELECT id, data
+      FROM test_a
+      UNION ALL
+      SELECT id, NULL
+      FROM test_b) c
+GROUP BY ID
+HAVING COUNT(id) = 1;
